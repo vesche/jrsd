@@ -3,13 +3,13 @@
 
 import argparse
 import configparser
-# import logging
+import logging
 import os
 import sys
 import time
 
 # supress scapy ipv6 warning
-# logging.getLogger('scappy.runtime').setLevel(logging.ERROR)
+logging.getLogger('scapy.runtime').setLevel(logging.ERROR)
 
 from scapy.all import arping
 
@@ -44,7 +44,7 @@ def alert_and_log(message):
     dt = time.strftime('%a, %d %b %Y %H:%M:%S {}'.format(time.tzname[0]), time.localtime())
 
     # write alert to log file & send system wide
-    log = '{}: {}'.format(dt, message)
+    log = '{} - {}'.format(dt, message)
     command = "echo {} | tee -a {} | wall".format(log, LOG_PATH)
     os.system(command)
 
@@ -91,7 +91,7 @@ def main():
                 alert_and_log('jrsd ALERT: {}'.format(m))
 
         # sleep for specified interval
-        time.sleep(interval)
+        time.sleep(float(interval))
 
 
 # remove later
