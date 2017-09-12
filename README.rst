@@ -1,7 +1,7 @@
 jrsd (Jackson's Rogue System Detection)
 =======================================
 
-jrsd is a network device monitoring and alerting utility that runs on Linux. It's built for an extermely specific use case of providing rogue system detection on a small, static network from a RHEL/CentOS host. A whitelist of MAC addresses must be provided for alerting.
+jrsd is a network device monitoring and alerting utility designed to run on a RHEL/CentOS host. It's built for an extremely specific use case of providing rogue system detection on a small, static network. This is accomplished by providing a complete whitelist of MAC addresses that will be used on the network, and periodically ARP scanning to ensure all network devices are within the whitelist.
 
 Installation
 ------------

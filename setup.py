@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import io
@@ -14,7 +14,7 @@ URL = 'https://github.com/vesche/jrsd'
 EMAIL = 'austinjackson892@gmail.com'
 AUTHOR = 'Austin Jackson'
 
-REQUIRED = []
+REQUIRED = ['scapy-python3']
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -69,9 +69,6 @@ setup(
     url=URL,
     packages=find_packages(exclude=('tests',)),
 
-    # entry_points={
-    #     'console_scripts': ['mycli=mymodule:cli'],
-    # },
     entry_points={
         'console_scripts': [
             'jrsd = jrsd.jrsd:main',
@@ -86,8 +83,6 @@ setup(
         'Intended Audience :: System Administrators',
         'Natural Language :: English',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2.6',
-        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
