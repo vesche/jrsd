@@ -5,6 +5,8 @@ import argparse
 import configparser
 import logging
 import os
+import re
+import socket
 import sys
 import time
 
@@ -30,6 +32,14 @@ def _preflight_jrsd():
 
 
 def _validate_config(ip_space, interval, whitelist):
+    # ensure ip_space is a valid subnet
+    ip, cidr = ip_space.split('/')
+    try:
+        socket.inet_aton(ip)
+        if not (8 <= int(cidr) <= 32):
+            raise socket.error
+    except (socket.error, ValueError):
+        print('Error: Invalid ip_space "{}" specified in config.'.format(ip_space))
 
     # ensure interval is a valid float
     try:
@@ -37,6 +47,12 @@ def _validate_config(ip_space, interval, whitelist):
     except ValueError:
         print('Error: Invalid interval "{}" specified in config.'.format(interval))
         sys.exit(1)
+    
+    # ensure whitelist contains valid mac addresses
+    for m in whitelist:
+        if not re.match("[0-9a-f]{2}([-:])[0-9a-f]{2}(\\1[0-9a-f]{2}){4}$", m):
+            print('Error: Invalid MAC address "{}" specified in config.'.format(m))
+            sys.exit(1)
 
 
 def alert_and_log(message):
