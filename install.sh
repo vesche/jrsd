@@ -6,6 +6,13 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 
+# install necessary packages
+rpm -Uvh ./packages/python36u-*
+tar xzvf ./packages/scapy-python3-0.21.tar.gz -C ./packages
+pushd packages/scapy-python3-0.21
+python3.6 setup.py install
+popd
+
 # put jrsd in place
 mkdir /root/.bin
 cp ./jrsd.py /root/.bin
