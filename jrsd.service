@@ -1,0 +1,15 @@
+[Unit]
+Description=jrsd
+After=syslog.target network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart=/root/.bin/jrsd.py
+KillMode=process
+StandardOutput=syslog
+StandardError=syslog
+
+[Install]
+WantedBy=multi-user.target
