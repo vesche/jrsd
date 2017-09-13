@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+#
+# jrsd - Jackson's Rogue System Detection
+# https://github.com/vesche/jrsd
+#
+
 import argparse
 import logging
 import os
@@ -72,7 +77,6 @@ def alert_and_log(message):
     os.system(command)
 
 
-# add arp spoofing later
 def arp_scan(ip_space):
     macs = []
     
@@ -117,6 +121,5 @@ def main():
         time.sleep(float(interval))
 
 
-# remove later
 if __name__ == '__main__':
     main()
