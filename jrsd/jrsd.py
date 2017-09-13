@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import argparse
-import configparser
 import logging
 import os
 import re
@@ -12,8 +11,15 @@ import time
 
 # supress scapy ipv6 warning
 logging.getLogger('scapy.runtime').setLevel(logging.ERROR)
-
 from scapy.all import arping
+
+# stop if Python 2.x and handle configparser import
+if sys.version < '3':
+    print('Error: jrsd requires Python 3.x to run.')
+    sys.exit(1)
+else:
+    import configparser
+
 
 CONFIG_PATH = '/etc/jrsd.conf'
 LOG_PATH = '/var/log/jrsd.log'
@@ -24,7 +30,7 @@ def _preflight_jrsd():
     if not os.geteuid() == 0:
         print('Error: This program needs to be run as root.\n')
         sys.exit(1)
-    
+
     # ensure config file exists
     if not os.path.isfile(CONFIG_PATH):
         print('Error: Config file /etc/jrsd.conf was not found.\n')
@@ -40,6 +46,7 @@ def _validate_config(ip_space, interval, whitelist):
             raise socket.error
     except (socket.error, ValueError):
         print('Error: Invalid ip_space "{}" specified in config.'.format(ip_space))
+        sys.exit(1)
 
     # ensure interval is a valid float
     try:
@@ -47,7 +54,7 @@ def _validate_config(ip_space, interval, whitelist):
     except ValueError:
         print('Error: Invalid interval "{}" specified in config.'.format(interval))
         sys.exit(1)
-    
+
     # ensure whitelist contains valid mac addresses
     for m in whitelist:
         if not re.match("[0-9a-f]{2}([-:])[0-9a-f]{2}(\\1[0-9a-f]{2}){4}$", m):
