@@ -24,6 +24,14 @@ chmod 644 /etc/systemd/system/jrsd.service
 
 # put config file in place
 cp ./jrsd.conf /etc
+chmod 644 /etc/jrsd.conf
 
 # create empty log file
 touch /var/log/jrsd.log
+
+# start on boot
+systemctl enable jrsd
+
+echo "[+] jrsd has been installed!"
+echo "[+] Configure jrsd by modifying /etc/jrsd.conf"
+echo "[+] Then run: systemctl start jrsd"
