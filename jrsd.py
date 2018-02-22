@@ -79,13 +79,13 @@ def alert_and_log(message):
 
 def arp_scan(ip_space):
     macs = []
-    
+
     ans_pkts, _ = arping(ip_space, verbose=0)
     for pkt in ans_pkts:
         m = pkt[1].sprintf("%Ether.src%")
         m = '-'.join(m.split(':')).lower()
         macs.append(m)
-    
+
     return macs
 
 
@@ -106,16 +106,16 @@ def main():
 
     # error check config values
     _validate_config(ip_space, interval, whitelist)
-    
+
     # jrsd main loop
     while True:
         # conduct arp scan
         macs = arp_scan(ip_space)
-        
+
         # check if a mac isn't in the whitelist
         for m in macs:
             if m not in whitelist:
-                alert_and_log('jrsd ALERT: {}'.format(m))
+                alert_and_log('jrsd ALERT! ROGUE SYSTEM DETECTED: {}'.format(m))
 
         # sleep for specified interval
         time.sleep(float(interval))
